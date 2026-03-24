@@ -1,0 +1,24 @@
+name: Multi-Service CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build Backend Docker
+      run: |
+        docker build -t backend ./backend
+
+    - name: Build Frontend Docker
+      run: |
+        docker build -t frontend ./frontend
+
+    - name: Test Backend
+      run: |
+        docker run --rm backend python -m py_compile app.py
